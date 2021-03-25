@@ -699,6 +699,16 @@ extension WebAPI {
             failure?(error)
         }
     }
+
+    public func openConversations(userIDs: String, success: ((_ imID: String?) -> Void)?, failure: FailureClosure?) {
+        let parameters = ["token": token, "users": userIDs]
+        networkInterface.request(.conversationsOpen, parameters: parameters, successClosure: {(response) in
+            let group = response["channel"] as? [String: Any]
+            success?(group?["id"] as? String)
+        }) {(error) in
+            failure?(error)
+        }
+    }
 }
 
 // MARK: - MPIM
